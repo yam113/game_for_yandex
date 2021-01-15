@@ -6,7 +6,15 @@ width = 1200
 height = 800
 polovina_width = width // 2
 polovina_height = height // 2
+razmer = 100
 FPS_POS = (width - 65, 5)
+
+# настройки отрисовки
+oblast_vid = math.pi / 3
+HALF_FOV = oblast_vid / 2
+kol_luchei = 300
+dalnost_prorisovki = 800
+ugol_mezhdu_luchami = oblast_vid / kol_luchei
 
 #  настройки игрока
 position_for_player = (polovina_width // 4, polovina_height - 50)  # начальное положение игрока
@@ -26,6 +34,24 @@ zheltui = (220, 220, 0)
 pesok = (244, 164, 96)
 temno_korichnevui = (97, 61, 25)
 temno_oranzhevui = (255, 140, 0)
+
+text_map = [
+    '111111111111',
+    '1.....2....1',
+    '1.22.....2.1',
+    '1..........1',
+    '1.22.......1',
+    '1.2......2.1',
+    '1.....2....1',
+    '111111111111'
+]
+world_map = {}
+for j, row in enumerate(text_map):
+    for i, char in enumerate(row):
+        if char == '1':
+            world_map[(i * razmer, j * razmer)] = '1'
+        elif char == '2':
+            world_map[(i * razmer, j * razmer)] = '2'
 
 class Player:
     def __init__(self):
