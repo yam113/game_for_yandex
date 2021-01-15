@@ -87,6 +87,32 @@ class Player:
 
         self.angle %= DOUBLE_PI
 
+        
+def ray_casting(player, textures):
+    """эта функция возвращает спискок в котором такие параметры как дальность до стены, рассчинная область
+     текстуры и ее рассположение"""
+    walls = []
+    ox, oy = player.pos
+    xm, ym = mapping(ox, oy)
+    cur_angle = player.angle - HALF_FOV
+    for ray in range(kol_luchei):
+        sin_a = math.sin(cur_angle)
+        cos_a = math.cos(cur_angle)
+        sin_a = sin_a if sin_a else 0.000001
+        cos_a = cos_a if cos_a else 0.000001
+
+        # вертикально
+        x, dx = (xm + razmer, 1) if cos_a >= 0 else (xm, -1)
+        for i in range(0, width, razmer):
+            depth_v = (x - ox) / cos_a
+            yv = oy + depth_v * sin_a
+            tile_v = mapping(x + dx, yv)
+            if tile_v in world_map:
+                texture_v = world_map[tile_v]
+                break
+            x += dx * razmer
+        
+
 pygame.init()
 screen = pygame.display.set_mode((width, height))
 
@@ -98,3 +124,6 @@ while True:
             exit()
     player.movement()
     screen.fill(chern) # вся поверхность в черный
+    
+    drawing.background(player.angle)
+    walls = ray_casting(player, drawing.textures)
